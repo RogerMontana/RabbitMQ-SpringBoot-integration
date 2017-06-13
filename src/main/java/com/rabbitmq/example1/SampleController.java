@@ -1,10 +1,10 @@
 package com.rabbitmq.example1;
 
-import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.stream.IntStream;
 
 import org.apache.log4j.Logger;
 import org.springframework.amqp.core.AmqpTemplate;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,7 +20,8 @@ public class SampleController {
 	@RequestMapping("/emitExchange")
 	@ResponseBody
 	public String emitMessagesExchange() {
-		IntStream.range(1, 100).forEach((i) -> template.convertAndSend("exchange-example", null, "Message to exchange" + i));
+		IntStream.range(1, 100).forEach((i) -> template.convertAndSend("Message to exchange" + i));
+		logger.info("Call send to Exchange");
 		return "Request was started type http://localhost:8080/print to see results";
 
 	}
@@ -29,14 +30,15 @@ public class SampleController {
 	@ResponseBody
 	public String emitDirectly() {
 		IntStream.range(1, 100).forEach((i) -> template.convertAndSend("queue1", "Message to queue1" + i));
+		logger.info("Call send to Queue");
 		return "Request was started type http://localhost:8080/print to see results";
 
 	}
 
 	@RequestMapping("/print")
 	@ResponseBody
-	public String printMessages() {
-		return Consumer.getQueue().toString();
+	public Object[] printMessages() {
+		return Consumer.getQueue().toArray();
 	}
 
 }

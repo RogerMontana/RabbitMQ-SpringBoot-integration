@@ -19,7 +19,7 @@ public class Consumer {
 
 	@RabbitListener(queues = "queue1")
 	public void consumer1(String message) {
-		logger.info("consumer1 received from queue 1: " + message);
+		logger.info("Consumer received from queue 1: " + message);
 		queue.add(message);
 	}
 
