@@ -14,16 +14,15 @@ export default class ContainerDiv extends React.Component{
     }
 
     addCard() {
+      let component = this;
        $.get('http://localhost:8080/emitDirectly');
-        let data = $.ajax({
+       $.ajax({
           url: 'http://localhost:8080/print',
           dataType: 'json',
           success: function (data) {
-            return data;
+            component.setState({data});
           }
         });
-      console.log(data);
-      this.setState({data});
     }
 
     render() {
