@@ -6,8 +6,7 @@ export default class SearchForm extends React.Component{
         this.handleSubmit = this.handleSubmit.bind(this);
     }
 
-    handleSubmit(e) {
-        e.preventDefault();
+    handleSubmit() {
         this.props.addCard();
     }
 
@@ -15,7 +14,7 @@ export default class SearchForm extends React.Component{
         return <form onSubmit={this.handleSubmit}>
             <div className="row">
                 <div className="small-2 columns">
-                    <button className="hollow button" >Send Messages</button>
+                    <button className="hollow button" >Send Messages Directly to Queue</button>
                 </div>
             </div>
         </form>;

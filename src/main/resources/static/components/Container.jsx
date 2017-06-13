@@ -13,16 +13,19 @@ export default class ContainerDiv extends React.Component{
         };
     }
 
-    addCard() {
+    componentDidMount() {
       let component = this;
+      $.ajax({
+        url: 'http://localhost:8080/print',
+        dataType: 'json',
+        success: function (data) {
+          component.setState({data});
+        }
+      });
+    }
+
+    addCard() {
        $.get('http://localhost:8080/emitDirectly');
-       $.ajax({
-          url: 'http://localhost:8080/print',
-          dataType: 'json',
-          success: function (data) {
-            component.setState({data});
-          }
-        });
     }
 
     render() {
