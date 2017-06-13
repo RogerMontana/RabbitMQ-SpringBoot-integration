@@ -7,9 +7,9 @@ import org.springframework.context.annotation.Import;
 
 @EnableAutoConfiguration
 @ComponentScan
-@Import(RabbitConfigC.class)
-public class ExampleAppConfiguration {
+@Import(RabbitConf.class)
+public class RabittBootApp {
 	public static void main(String[] args) throws Exception {
-		SpringApplication.run(ExampleAppConfiguration.class, args);
+		SpringApplication.run(RabittBootApp.class, args);
 	}
 }

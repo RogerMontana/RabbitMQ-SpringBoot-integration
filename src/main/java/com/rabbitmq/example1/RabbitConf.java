@@ -2,19 +2,19 @@ package com.rabbitmq.example1;
 
 import org.apache.log4j.Logger;
 import org.springframework.amqp.core.AmqpAdmin;
-import org.springframework.amqp.core.Message;
-import org.springframework.amqp.core.MessageListener;
+import org.springframework.amqp.core.Binding;
+import org.springframework.amqp.core.BindingBuilder;
+import org.springframework.amqp.core.DirectExchange;
+import org.springframework.amqp.core.FanoutExchange;
 import org.springframework.amqp.core.Queue;
 import org.springframework.amqp.rabbit.connection.CachingConnectionFactory;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
 import org.springframework.amqp.rabbit.core.RabbitAdmin;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
-import org.springframework.amqp.rabbit.listener.SimpleMessageListenerContainer;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 
-public class RabbitConfigC {
-	private static  Logger logger = Logger.getLogger(RabbitConfigC.class);
+public class RabbitConf {
+	private static  Logger logger = Logger.getLogger(RabbitConf.class);
 
 	@Bean
 	public ConnectionFactory connectionFactory() {
@@ -33,14 +33,27 @@ public class RabbitConfigC {
 
 	@Bean
 	public Queue myQueue1() {
-		return new Queue(QueneName.NAME.toString());
+		return new Queue("queue1");
 	}
 
 	@Bean
-	public SimpleMessageListenerContainer messageListenerContainer1() {
-		SimpleMessageListenerContainer container = new SimpleMessageListenerContainer();
-		container.setConnectionFactory(connectionFactory());
-		container.setQueueNames(QueneName.NAME.toString());
-		return container;
+	public Queue myQueue2() {
+		return new Queue("queue2");
 	}
+
+	@Bean
+	public FanoutExchange fanoutExchange(){
+		return new FanoutExchange("exchange-example");
+	}
+
+	@Bean
+	public Binding binding1(){
+		return BindingBuilder.bind(myQueue1()).to(fanoutExchange());
+	}
+
+	@Bean
+	public Binding binding2(){
+		return BindingBuilder.bind(myQueue2()).to(fanoutExchange());
+	}
+
 }
