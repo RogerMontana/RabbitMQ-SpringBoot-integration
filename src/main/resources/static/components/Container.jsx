@@ -1,49 +1,54 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import Card from "./Card.jsx";
-import SearchForm from "./SearchForm.jsx";
+import Message from "./Message.jsx";
+import ButtonForm from "./ButtonForm.jsx";
 import $ from 'jquery';
 
-export default class ContainerDiv extends React.Component{
-    constructor(props) {
-        super(props);
-        this.addCard = this.addCard.bind(this);
-        this.state = {
-          data: []
-        };
-    }
+export default class ContainerDiv extends React.Component {
+  constructor(props) {
+    super(props);
+    this.emmitEvents = this.emmitEvents.bind(this);
+    this.state = {
+      data: []
+    };
+  }
 
-    componentDidMount() {
-      let component = this;
-      $.ajax({
-        url: 'http://localhost:8080/print',
-        dataType: 'json',
-        success: function (data) {
-          component.setState({data});
-        }
-      });
-    }
+  componentDidMount() {
+    let component = this;
+    $.ajax({
+      url: 'http://localhost:8080/print',
+      dataType: 'json',
+      success: function (data) {
+        component.setState({data});
+      }
+    });
+  }
 
-    addCard() {
-       $.get('http://localhost:8080/emitDirectly');
-    }
+  emmitEvents() {
+    $.get('http://localhost:8080/emitDirectly');
+  }
 
-    render() {
-        let cardId = 1;
-        let cards = this.state.data.map(function (d) {
-            return <Card id = {cardId++} message={d} />
-        });
-        return <div className="row">
-            <h3>RabbitMQ Spring Boot Demo App</h3>
-            <SearchForm addCard={this.addCard}/>
-            <div>
-                {cards}
-            </div>
-        </div>;
-    }
+  emmitEventsBroker() {
+    $.get('http://localhost:8080/emitExchange');
+  }
+
+  render() {
+    let cardId = 1;
+    let cards = this.state.data.map(function (d) {
+      return <Message id={cardId++} message={d}/>
+    });
+    return <div className="row">
+      <h3>RabbitMQ Spring Boot Demo App</h3>
+      <ButtonForm buttonText="Send Messages Directly to Queue" emmitEvents={this.emmitEvents}/>
+      <ButtonForm buttonText="Send Messages to Exchange Broker" emmitEvents={this.emmitEventsBroker}/>
+      <div>
+        {cards}
+      </div>
+    </div>;
+  }
 }
 
 ReactDOM.render(
-    <ContainerDiv/>,
-    document.getElementById('container')
+  <ContainerDiv/>,
+  document.getElementById('container')
 );
