@@ -8,29 +8,27 @@ import org.springframework.amqp.core.BindingBuilder;
 import org.springframework.amqp.core.FanoutExchange;
 import org.springframework.amqp.core.Queue;
 import org.springframework.amqp.rabbit.annotation.EnableRabbit;
-import org.springframework.amqp.rabbit.connection.CachingConnectionFactory;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
 import org.springframework.amqp.rabbit.core.RabbitAdmin;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 
 @EnableRabbit
 public class RabbitConf {
 	private static  Logger logger = Logger.getLogger(RabbitConf.class);
 
-	@Bean
-	public ConnectionFactory connectionFactory() {
-		return new CachingConnectionFactory("localhost");
-	}
+	@Autowired
+	private ConnectionFactory connectionFactory;
 
 	@Bean
 	public AmqpAdmin amqpAdmin() {
-		return new RabbitAdmin(connectionFactory());
+		return new RabbitAdmin(connectionFactory);
 	}
 
 	@Bean
 	public AmqpTemplate rabbitTemplate() {
-		RabbitTemplate rabbitTemplate = new RabbitTemplate(connectionFactory());
+		RabbitTemplate rabbitTemplate = new RabbitTemplate(connectionFactory);
 		rabbitTemplate.setExchange("exchange-example");
 		return rabbitTemplate;
 	}
