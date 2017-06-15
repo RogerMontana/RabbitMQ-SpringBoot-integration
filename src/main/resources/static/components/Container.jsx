@@ -33,16 +33,13 @@ export default class ContainerDiv extends React.Component {
   }
 
   render() {
-    let cardId = 1;
-    let cards = this.state.data.map(function (d) {
-      return <Message id={cardId++} message={d}/>
-    });
+    let messages = this.state.data.map((m) => <Message id={m} message={m}/>);
     return <div className="row">
       <h3>RabbitMQ Spring Boot Demo App</h3>
       <ButtonForm buttonText="Send Messages Directly to Queue" emmitEvents={this.emmitEvents}/>
       <ButtonForm buttonText="Send Messages to Exchange Broker" emmitEvents={this.emmitEventsBroker}/>
       <div>
-        {cards}
+        {messages}
       </div>
     </div>;
   }

@@ -14,31 +14,30 @@ import io.arivera.oss.embedded.rabbitmq.EmbeddedRabbitMq;
 import io.arivera.oss.embedded.rabbitmq.EmbeddedRabbitMqConfig;
 
 /**
- *
  * Created by Artem Karpov
  */
 
 public class RabbitMQPlayground {
-	//public static void main(String[] args) throws IOException, TimeoutException {
-	//	EmbeddedRabbitMqConfig config =
-	//			new EmbeddedRabbitMqConfig.Builder().defaultRabbitMqCtlTimeoutInMillis(100000).erlangCheckTimeoutInMillis(10000)
-	//					.rabbitMqServerInitializationTimeoutInMillis(100000).build();
-	//	EmbeddedRabbitMq rabbitMq = new EmbeddedRabbitMq(config);
-	//	rabbitMq.start();
-	//	ConnectionFactory connectionFactory = new ConnectionFactory();
-	//	connectionFactory.setHost("localhost");
-	//	connectionFactory.setVirtualHost("/");
-	//	//connectionFactory.setUsername("guest");
-	//	//connectionFactory.setPassword("guest");
-	//
-	//	Connection connection = connectionFactory.newConnection();
-	//
-	//	assertThat(connection.isOpen(), equalTo(true));
-	//	Channel channel = connection.createChannel();
-	//	assertThat(channel.isOpen(), equalTo(true));
-	//	System.out.println("everthing is fine");
-	//	channel.close();
-	//	connection.close();
-	//}
+	public static void main(String[] args) throws IOException, TimeoutException {
+		EmbeddedRabbitMqConfig config =
+				new EmbeddedRabbitMqConfig.Builder().defaultRabbitMqCtlTimeoutInMillis(100000).erlangCheckTimeoutInMillis(10000)
+						.rabbitMqServerInitializationTimeoutInMillis(100000).build();
+		EmbeddedRabbitMq rabbitMq = new EmbeddedRabbitMq(config);
+		rabbitMq.start();
+		ConnectionFactory connectionFactory = new ConnectionFactory();
+		connectionFactory.setHost("localhost");
+		connectionFactory.setVirtualHost("/");
+		connectionFactory.setUsername("guest");
+		connectionFactory.setPassword("guest");
+
+		Connection connection = connectionFactory.newConnection();
+
+		assertThat("Can't create connection", connection.isOpen(), equalTo(true));
+		Channel channel = connection.createChannel();
+		assertThat("Can't create channel", channel.isOpen(), equalTo(true));
+		System.out.println("everything is fine");
+		channel.close();
+		connection.close();
+	}
 }
 
