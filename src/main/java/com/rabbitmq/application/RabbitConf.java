@@ -1,4 +1,4 @@
-package com.rabbitmq.example1;
+package com.rabbitmq.application;
 
 import org.apache.log4j.Logger;
 import org.springframework.amqp.core.AmqpAdmin;

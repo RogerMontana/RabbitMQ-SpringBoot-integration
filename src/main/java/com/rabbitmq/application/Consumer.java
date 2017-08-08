@@ -1,4 +1,4 @@
-package com.rabbitmq.example1;
+package com.rabbitmq.application;
 
 import java.util.concurrent.ConcurrentLinkedQueue;
 
